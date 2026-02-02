@@ -1,0 +1,10 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+
+fleet:
+  simulator:
+    auto-start: false
+    tick-ms: 100
+    initial-trucks: 50

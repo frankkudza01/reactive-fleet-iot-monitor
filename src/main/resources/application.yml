@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: reactive-fleet-iot-monitor
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+
+  rsocket:
+    server:
+      transport: tcp
+      port: ${RSOCKET_PORT:7000}
+      # Note: RSocket is not HTTP; it is a separate TCP server for streaming.
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+fleet:
+  simulator:
+    auto-start: ${FLEET_AUTO_START:true}
+    initial-trucks: ${FLEET_INITIAL_TRUCKS:1000}
+    tick-ms: ${FLEET_TICK_MS:1000}
+    max-emit-per-tick: ${FLEET_MAX_EMIT_PER_TICK:2000} # protects sinks during burst
+  backpressure:
+    mode: ${FLEET_BACKPRESSURE_MODE:latest} # latest | drop | buffer
+    buffer-size: ${FLEET_BACKPRESSURE_BUFFER:10000}
